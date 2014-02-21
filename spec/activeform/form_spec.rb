@@ -5,8 +5,10 @@ describe ActiveForm do
     include ActiveForm::Form
     properties :name, on: :user
     properties :title, on: :category
-    main_model :user
+
     attr_accessor :user, :category
+
+    self.main_model = :user
   end
 
   describe ".main_class" do
@@ -20,14 +22,14 @@ describe ActiveForm do
 
     context "when a main class is specified" do
       it "take the specified class" do
-        Form.set_main_class(Category)
+        Form.main_class = Category
         expect(Form.main_class).to eq Category
       end
     end
 
     context "when there is only a main model specified" do
       it "build the main class from the main model" do
-        Form.main_model(:category)
+        Form.main_model = :category
         expect(Form.main_class).to eq Category
       end
     end
