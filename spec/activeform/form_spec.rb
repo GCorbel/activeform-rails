@@ -46,13 +46,40 @@ describe ActiveForm do
   end
 
   describe "#save" do
+    context "when the form is valid" do
+      it "save all models" do
+        user = User.new
+        category = Category.new
+        form = Form.new(user: user, category: category)
+        expect(user).to receive(:save)
+        expect(category).to receive(:save)
+        form.save
+      end
+
+      it "return true" do
+        form = Form.new(user: User.new, category: Category.new)
+        allow(form).to receive(:valid?).and_return(true)
+        expect(form.save).to eq true
+      end
+    end
+
+    context "when the form is invalid" do
+      it "return false" do
+        form = Form.new(user: User.new, category: Category.new)
+        allow(form).to receive(:valid?).and_return(false)
+        expect(form.save).to eq false
+      end
+    end
+  end
+
+  describe "#save!" do
     it "save all models" do
       user = User.new
       category = Category.new
       form = Form.new(user: user, category: category)
-      expect(user).to receive(:save)
-      expect(category).to receive(:save)
-      form.save
+      expect(user).to receive(:save!)
+      expect(category).to receive(:save!)
+      form.save!
     end
   end
 end

@@ -60,10 +60,24 @@ module ActiveForm::Form
   end
 
   def save
-    self.class.models.each { |model| send(model).save }
+    valid?.tap do
+      each_models { |model| model.save }
+    end
   end
+
+  def save!
+    each_models { |model| model.save! }
+  end
+
+  private
 
   def main_model
     send(self.class.main_model_name)
+  end
+
+  def each_models
+    self.class.models.each do |model_name|
+      yield(send(model_name))
+    end
   end
 end
