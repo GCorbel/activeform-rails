@@ -52,7 +52,7 @@ module ActiveForm::Form
   delegate :to_key, :to_param, :id, :persisted?, to: :main_model
 
   def initialize(attributes)
-    attributes.each {|name, model| send("#{name}=", model)}
+    fill_attributes(attributes)
   end
 
   def fill_attributes(params)
