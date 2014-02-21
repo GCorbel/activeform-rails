@@ -82,4 +82,13 @@ describe ActiveForm do
       form.save!
     end
   end
+
+  describe "#main_model" do
+    it "give the main model" do
+      Form.main_model = :category
+      category = Category.new
+      form = Form.new(user: User.new, category: category)
+      expect(form.main_model).to eq category
+    end
+  end
 end

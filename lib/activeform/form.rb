@@ -69,11 +69,11 @@ module ActiveForm::Form
     each_models { |model| model.save! }
   end
 
-  private
-
   def main_model
-    send(self.class.main_model_name)
+    send(self.class.main_model)
   end
+
+  private
 
   def each_models
     self.class.models.each do |model_name|
