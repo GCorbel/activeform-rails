@@ -52,11 +52,11 @@ module ActiveForm::Form
   delegate :to_key, :to_param, :id, :persisted?, to: :main_model
 
   def initialize(attributes)
-    fill_attributes(attributes)
+    assign_from_hash(attributes)
   end
 
   def fill_attributes(params)
-    params.each_pair { |key, value| send("#{key}=", value) }
+    assign_from_hash(params)
   end
 
   def save
@@ -81,5 +81,9 @@ module ActiveForm::Form
     self.class.models.each do |model_name|
       yield(send(model_name))
     end
+  end
+
+  def assign_from_hash(hash)
+    hash.each { |key, value| send("#{key}=", value) }
   end
 end
