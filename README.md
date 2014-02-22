@@ -119,7 +119,7 @@ class Form
     end
   end
 end
-```ruby
+```
 
 ## Complete Example
 
