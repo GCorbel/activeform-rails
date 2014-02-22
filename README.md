@@ -7,7 +7,7 @@ Apply form objects to ActiveMmdel. Form objects have responsability to decouple 
 Add this line to you Gemfile :
 
 ```ruby
-  gem 'activeform'
+  gem 'activeform-rails'
 ```
 
 ## Quick example

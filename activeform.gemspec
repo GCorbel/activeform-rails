@@ -5,7 +5,7 @@ require "activeform/version"
 
 # Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
-  s.name        = "activeform"
+  s.name        = "activeform-rails"
   s.version     = Activeform::VERSION
   s.authors     = ["Guirec Corbel"]
   s.email       = ["guirec.corbel@gmail.com"]
