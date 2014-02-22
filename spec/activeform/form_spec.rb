@@ -81,6 +81,13 @@ describe ActiveForm do
       expect(category).to receive(:save!)
       form.save!
     end
+
+    it "is surrounded by a transaction" do
+      expect(ActiveRecord::Base).to receive(:transaction).at_least(:once).
+        and_yield
+      form = Form.new(user: User.new, category: Category.new)
+      form.save!
+    end
   end
 
   describe "#main_model" do
