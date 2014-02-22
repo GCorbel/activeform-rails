@@ -59,15 +59,15 @@ module ActiveForm::Form
     assign_from_hash(params)
   end
 
-  def save
+  def save(&block)
     valid?.tap do
-      each_models(&:save)
+      call_action_or_block(:save, &block)
     end
   end
 
-  def save!
+  def save!(&block)
     ActiveRecord::Base.transaction do
-      each_models(&:save!)
+      call_action_or_block(:save!, &block)
     end
   end
 
@@ -85,5 +85,9 @@ module ActiveForm::Form
 
   def assign_from_hash(hash)
     hash.each { |key, value| send("#{key}=", value) }
+  end
+
+  def call_action_or_block(action, &block)
+    block_given? ? block.call(self) : each_models(&action)
   end
 end

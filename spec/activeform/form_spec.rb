@@ -47,19 +47,31 @@ describe ActiveForm do
 
   describe "#save" do
     context "when the form is valid" do
-      it "save all models" do
-        user = User.new
-        category = Category.new
-        form = Form.new(user: user, category: category)
-        expect(user).to receive(:save)
-        expect(category).to receive(:save)
-        form.save
+      context "when no block is given" do
+        it "save all models" do
+          user = User.new
+          category = Category.new
+          form = Form.new(user: user, category: category)
+          expect(user).to receive(:save)
+          expect(category).to receive(:save)
+          form.save
+        end
+
+        it "return true" do
+          form = Form.new(user: User.new, category: Category.new)
+          allow(form).to receive(:valid?).and_return(true)
+          expect(form.save).to eq true
+        end
       end
 
-      it "return true" do
-        form = Form.new(user: User.new, category: Category.new)
-        allow(form).to receive(:valid?).and_return(true)
-        expect(form.save).to eq true
+      context "when a block is given" do
+        it "use the block" do
+          user = User.new
+          form = Form.new(user: user, category: Category.new)
+          allow(form).to receive(:valid?).and_return(true)
+          expect(user).to receive(:process)
+          form.save { |f| f.user.process }
+        end
       end
     end
 
@@ -73,20 +85,31 @@ describe ActiveForm do
   end
 
   describe "#save!" do
-    it "save all models" do
-      user = User.new
-      category = Category.new
-      form = Form.new(user: user, category: category)
-      expect(user).to receive(:save!)
-      expect(category).to receive(:save!)
-      form.save!
+    context "when no block is given" do
+      it "save all models" do
+        user = User.new
+        category = Category.new
+        form = Form.new(user: user, category: category)
+        expect(user).to receive(:save!)
+        expect(category).to receive(:save!)
+        form.save!
+      end
+
+      it "is surrounded by a transaction" do
+        expect(ActiveRecord::Base).to receive(:transaction).at_least(:once).
+          and_yield
+        form = Form.new(user: User.new, category: Category.new)
+        form.save!
+      end
     end
 
-    it "is surrounded by a transaction" do
-      expect(ActiveRecord::Base).to receive(:transaction).at_least(:once).
-        and_yield
-      form = Form.new(user: User.new, category: Category.new)
-      form.save!
+    context "when a block is given" do
+      it "use the block" do
+        user = User.new
+        form = Form.new(user: user, category: Category.new)
+        expect(user).to receive(:process)
+        form.save! { |f| f.user.process }
+      end
     end
   end
 
