@@ -1,0 +1,5 @@
+<%= simple_form_for(@form) do |f| %>
+  <%= f.input :title %>
+  <%= f.association :users %>
+  <%= f.submit %>
+<% end %>

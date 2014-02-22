@@ -7,8 +7,7 @@ class UserForm
 
   validates_uniqueness_of :name, :user
 
-  main_model :user
-  main_class User
+  self.main_model = :user
 
   validates :name, presence: true
 end

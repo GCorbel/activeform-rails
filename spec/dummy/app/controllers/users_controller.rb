@@ -24,7 +24,6 @@ class UsersController < ApplicationController
   # POST /users
   def create
     @user = User.new
-    @category = Category.new(user: @user)
     @form = UserForm.new(user: @user, category: @category)
     @form.fill_attributes(user_params)
 
