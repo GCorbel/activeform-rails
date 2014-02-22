@@ -61,13 +61,13 @@ module ActiveForm::Form
 
   def save
     valid?.tap do
-      each_models { |model| model.save }
+      each_models(&:save)
     end
   end
 
   def save!
     ActiveRecord::Base.transaction do
-      each_models { |model| model.save! }
+      each_models(&:save!)
     end
   end
 
