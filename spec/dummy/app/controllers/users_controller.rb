@@ -12,19 +12,18 @@ class UsersController < ApplicationController
 
   # GET /users/new
   def new
-    @form = UserForm.new(user: User.new, category: Category.new)
+    @form = UserForm.new(user: User.new)
   end
 
   # GET /users/1/edit
   def edit
-    @category = @user.category
-    @form = UserForm.new(user: @user, category: @category)
+    @form = UserForm.new(user: @user)
   end
 
   # POST /users
   def create
-    @user = User.new
-    @form = UserForm.new(user: @user, category: @category)
+    @user = User.new(user_params)
+    @form = UserForm.new(user: @user)
     @form.fill_attributes(user_params)
 
     if @form.valid?
@@ -37,8 +36,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    @category = @user.category
-    @form = UserForm.new(user: @user, category: @category)
+    @form = UserForm.new(user: @user)
     @form.fill_attributes(user_params)
 
     if @form.valid?
@@ -63,6 +61,6 @@ class UsersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def user_params
-      params.require(:user).permit(:name, :title)
+      params.require(:user).permit(:name, :category_id)
     end
 end

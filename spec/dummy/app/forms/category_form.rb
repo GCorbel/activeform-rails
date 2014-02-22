@@ -14,7 +14,8 @@ class CategoryForm
   end
 
   def save
-    super.tap do
+    super do
+      category.save
       category.users = user_ids.delete_if(&:empty?).map do |user_id|
         User.find(user_id)
       end

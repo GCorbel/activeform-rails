@@ -26,6 +26,7 @@ class CategoriesController < ApplicationController
     @category = Category.new(category_params)
     @form = CategoryForm.new(category: @category)
 
+    @form.fill_attributes(category_params)
     if @form.save
       redirect_to @form, notice: 'Category was successfully created.'
     else
@@ -38,7 +39,6 @@ class CategoriesController < ApplicationController
     @form = CategoryForm.new(category: @category)
     @form.fill_attributes(category_params)
     if @form.save
-      binding.pry
       redirect_to @form, notice: 'Category was successfully updated.'
     else
       render action: 'edit'
