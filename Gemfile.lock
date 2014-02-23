@@ -1,26 +1,21 @@
 PATH
   remote: .
   specs:
-    activeform (0.0.1)
-      activemodel (>= 3)
+    activeform-rails (0.0.1)
+      activemodel (~> 3)
 
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (4.0.2)
-      activesupport (= 4.0.2)
-      builder (~> 3.1.0)
-    activesupport (4.0.2)
+    activemodel (3.2.16)
+      activesupport (= 3.2.16)
+      builder (~> 3.0.0)
+    activesupport (3.2.16)
       i18n (~> 0.6, >= 0.6.4)
-      minitest (~> 4.2)
-      multi_json (~> 1.3)
-      thread_safe (~> 0.1)
-      tzinfo (~> 0.3.37)
-    atomic (1.1.14)
-    builder (3.1.4)
+      multi_json (~> 1.0)
+    builder (3.0.4)
     diff-lcs (1.2.5)
     i18n (0.6.9)
-    minitest (4.7.5)
     multi_json (1.8.4)
     rspec (2.14.1)
       rspec-core (~> 2.14.0)
@@ -31,14 +26,11 @@ GEM
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.14.4)
     sqlite3 (1.3.8)
-    thread_safe (0.1.3)
-      atomic
-    tzinfo (0.3.38)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activeform!
-  rspec
-  sqlite3
+  activeform-rails!
+  rspec (~> 2)
+  sqlite3 (~> 1)

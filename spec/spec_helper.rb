@@ -1,5 +1,5 @@
 require 'active_record'
-require 'activeform'
+require 'activeform-rails'
 require 'database_cleaner'
 
 ActiveRecord::Base.establish_connection(
