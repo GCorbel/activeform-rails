@@ -1,6 +1,6 @@
 # ActiveForm
 
-Apply form objects to ActiveMmdel. Form objects have responsability to decouple the form logic from the model. It will help you to simplify your models.
+Apply form objects to ActiveModel. Form objects have responsability to decouple the form logic from the model. It will help you to simplify your models.
 
 ## Installation
 
@@ -12,7 +12,7 @@ Add this line to you Gemfile :
 
 ## Quick example
 
-In order to manage category and users, you can create a object like this :
+In order to manage category and users, you can create an object like this :
 
 ```ruby
 class Form
@@ -46,7 +46,7 @@ form.save #save all models and return true
 
 ## Use validations
 
-Validations are working like a normal ActiveRecord model expect form validate the unicity. To do it, you can do this :
+Validations works like a normal ActiveRecord model expect form validate the unicity. To do it, you can do this :
 
 ```ruby
 class Form
@@ -57,7 +57,7 @@ class Form
 end
 ```
 
-The `validates_uniqueness_of` take two parameters, the first is the property which should be uniq and the second is the model for this property.
+The `validates_uniqueness_of` take two parameters, the first is the property which should be unique and the second is the model for this property.
 
 ## Saving forms
 
