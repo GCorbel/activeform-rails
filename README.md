@@ -40,13 +40,40 @@ form.fill_attributes(name: 'GCorbel')
 form.user.name # return 'GCorbel'
 form.name # return 'GCorbel'
 
-form.valid? #return true
-form.save #save all models and return true
+form.valid? # return true
+form.save # save all models and return true
 ```
 
 ## Use validations
 
-Validations works like a normal ActiveRecord model expect form validate the unicity. To do it, you can do this :
+Validations works like a normal ActiveModel class. So, you can do this :
+
+```ruby
+class Form
+  include ActiveForm::Form
+
+  properties :name, on: :user
+  
+  validates :name, presence: true
+
+  self.main_model = :user
+end
+```
+
+And use it like this :
+
+
+```ruby
+user = User.new
+form = Form.new(user: user)
+form.valid? # return false
+form.errors # return #<ActiveModel::Errors:0x007fe603816640 @messages={name:["can't be blank"]}>
+form.fill_attributes(name: 'GCorbel')
+form.valid? # return true
+```
+
+
+To validate the unicity or a property, you can do this :
 
 ```ruby
 class Form
