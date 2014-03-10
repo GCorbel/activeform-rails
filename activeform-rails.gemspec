@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sqlite3", "~> 1"
   s.add_development_dependency "rspec", "~> 2"
   s.add_development_dependency "activerecord", "~> 3"
+  s.add_development_dependency "database_cleaner", "~> 1.2"
 end
