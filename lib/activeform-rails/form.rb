@@ -16,9 +16,7 @@ module ActiveForm::Form
       if on.nil?
         attr_accessor *attributes
       else
-        assign_delegators(attributes, on, prefix)
-        add_model_on_list(on)
-        add_accessor(on)
+        delegate_to_model(attributes, on, prefix)
       end
     end
 
@@ -62,6 +60,12 @@ module ActiveForm::Form
         delegate attribute, to: model_name, prefix: prefix
         delegate "#{attribute}=", to: model_name, prefix: prefix
       end
+    end
+
+    def delegate_to_model(attributes, on, prefix)
+      assign_delegators(attributes, on, prefix)
+      add_model_on_list(on)
+      add_accessor(on)
     end
   end
 
