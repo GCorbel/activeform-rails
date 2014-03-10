@@ -7,9 +7,9 @@ module ActiveForm
     end
 
     module ClassMethods
-      def validates_uniqueness_of(attribute, model_name)
+      def validates_uniqueness_of(attribute, model_name, options = {})
         @attribute = attribute
-        validates_each attribute do |form, attr, value|
+        validates_each attribute, options do |form, attr, value|
           @form = form
           @model = form.send(model_name)
           @klass = @model.class

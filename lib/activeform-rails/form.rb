@@ -8,15 +8,18 @@ module ActiveForm::Form
     base.extend ClassMethods
   end
 
-
   module ClassMethods
     delegate :model_name, :reflect_on_association, to: :main_class
     attr_accessor :main_class, :reflected_class, :main_model
 
-    def properties(*attributes, prefix: false, on:)
-      assign_delegators(attributes, on, prefix)
-      add_model_on_list(on)
-      add_accessor(on)
+    def properties(*attributes, prefix: false, on: nil)
+      if on.nil?
+        attr_accessor *attributes
+      else
+        assign_delegators(attributes, on, prefix)
+        add_model_on_list(on)
+        add_accessor(on)
+      end
     end
 
     def i18n_scope
@@ -27,8 +30,21 @@ module ActiveForm::Form
       @models ||= []
     end
 
+    def main_model
+      @main_model ||= MockModel.new(self)
+    end
+
     def main_class
-      @main_class ||= @main_model.to_s.camelize.constantize
+      @main_class ||= if main_model.kind_of?(Symbol)
+        main_model.to_s.camelize.constantize
+      else
+        @main_model
+      end
+    end
+
+    def alias_property(new_method, old_method)
+      alias_method new_method.to_sym, old_method.to_sym
+      alias_method "#{new_method}=".to_sym, "#{old_method}=".to_sym
     end
 
     private
@@ -51,7 +67,7 @@ module ActiveForm::Form
 
   delegate :to_key, :to_param, :id, :persisted?, to: :main_model
 
-  def initialize(attributes)
+  def initialize(attributes = {})
     assign_from_hash(attributes)
   end
 
@@ -60,22 +76,36 @@ module ActiveForm::Form
   end
 
   def save(&block)
+    ensure_persistable
     valid?.tap do
       call_action_or_block(:save, &block)
     end
   end
 
   def save!(&block)
+    ensure_persistable
     ActiveRecord::Base.transaction do
       call_action_or_block(:save!, &block)
     end
   end
 
   def main_model
-    send(self.class.main_model)
+    if self.class.main_model.kind_of?(Symbol)
+      send(self.class.main_model)
+    else
+      self.class.main_model
+    end
+  end
+
+  def new_record?
+    !persisted?
   end
 
   private
+
+  def ensure_persistable
+    raise ActiveForm::CannotBePersisted.new('The Form object is not backed by models so cannot be saved') if self.class.models.empty?
+  end
 
   def each_models
     self.class.models.each do |model_name|

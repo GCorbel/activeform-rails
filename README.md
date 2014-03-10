@@ -10,6 +10,8 @@ Add this line to you Gemfile :
   gem 'activeform-rails'
 ```
 
+Please make sure you are running a compatible version of Ruby, see below.
+
 ## Quick example
 
 In order to manage category and users, you can create an object like this :
@@ -44,6 +46,23 @@ form.valid? # return true
 form.save # save all models and return true
 ```
 
+## Example without backing by an ActiveModel
+
+If you would like to use form objects to provide validations to simple objects, simply omit the `on` argument and `main_model` definition as follows :
+
+```ruby
+class Form
+  include ActiveForm::Form
+  properties :name, :title
+  validates_presence_of :title
+end
+
+form = Form.new(name: 'John')
+form.name # return John
+form.title # return nil
+form.valid? # return false
+```
+
 ## Use validations
 
 Validations works like a normal ActiveModel class. So, you can do this :
@@ -53,7 +72,7 @@ class Form
   include ActiveForm::Form
 
   properties :name, on: :user
-  
+
   validates :name, presence: true
 
   self.main_model = :user
@@ -148,9 +167,31 @@ class Form
 end
 ```
 
+## Alias properties
+
+Sometimes it's useful to create an alias for a method, you can do it like this :
+
+```ruby
+class Form
+  include ActiveForm::Form
+  properties :name, on: :category
+  alias_property :category_name, :name
+  self.main_model = :category
+end
+
+form = Form.new(category: Category.new(name: 'bacon'))
+form.category_name # return 'bacon'
+form.category_name = 'beef'
+form.category_name # return 'beef'
+```
+
 ## Complete Example
 
 You can find an example of a working application in the spec/dummy directory.
+
+## Requirements
+
+Ruby 2 or greater.
 
 ## Contributing
 
