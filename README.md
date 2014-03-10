@@ -46,6 +46,23 @@ form.valid? # return true
 form.save # save all models and return true
 ```
 
+## Example without backing by an ActiveModel
+
+If you would like to use form objects to provide validations to simple objects, simply omit the `on` argument and `main_model` definition as follows :
+
+```ruby
+class Form
+  include ActiveForm::Form
+  properties :name, :title
+  validates_presence_of :title
+end
+
+form = Form.new(name: 'John')
+form.name # John
+form.title # nil
+form.valid? # false
+```
+
 ## Use validations
 
 Validations works like a normal ActiveModel class. So, you can do this :

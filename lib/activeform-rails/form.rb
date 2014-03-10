@@ -8,15 +8,18 @@ module ActiveForm::Form
     base.extend ClassMethods
   end
 
-
   module ClassMethods
-    delegate :model_name, :reflect_on_association, to: :main_class
+    delegate :reflect_on_association, to: :main_class
     attr_accessor :main_class, :reflected_class, :main_model
 
     def properties(*attributes, prefix: false, on: nil)
-      assign_delegators(attributes, on, prefix)
-      add_model_on_list(on)
-      add_accessor(on)
+      if on.nil?
+        attr_accessor *attributes
+      else
+        assign_delegators(attributes, on, prefix)
+        add_model_on_list(on)
+        add_accessor(on)
+      end
     end
 
     def i18n_scope
@@ -28,7 +31,19 @@ module ActiveForm::Form
     end
 
     def main_class
-      @main_class ||= @main_model.to_s.camelize.constantize
+      @main_class ||= if @main_model.nil?
+        Object
+      else
+        @main_model.to_s.camelize.constantize
+      end
+    end
+
+    def model_name
+      if main_class.respond_to?(:model_name)
+        main_class.model_name
+      else
+        ActiveModel::Name.new(self)
+      end
     end
 
     private
@@ -51,7 +66,7 @@ module ActiveForm::Form
 
   delegate :to_key, :to_param, :id, :persisted?, to: :main_model
 
-  def initialize(attributes)
+  def initialize(attributes = {})
     assign_from_hash(attributes)
   end
 
@@ -60,12 +75,14 @@ module ActiveForm::Form
   end
 
   def save(&block)
+    ensure_persistable
     valid?.tap do
       call_action_or_block(:save, &block)
     end
   end
 
   def save!(&block)
+    ensure_persistable
     ActiveRecord::Base.transaction do
       call_action_or_block(:save!, &block)
     end
@@ -76,6 +93,10 @@ module ActiveForm::Form
   end
 
   private
+
+  def ensure_persistable
+    raise ActiveForm::CannotBePersisted.new('The Form object is not backed by models so cannot be saved') if self.class.models.empty?
+  end
 
   def each_models
     self.class.models.each do |model_name|
