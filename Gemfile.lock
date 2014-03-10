@@ -3,6 +3,7 @@ PATH
   specs:
     activeform-rails (0.0.2)
       activemodel (~> 3)
+      activesupport (~> 3)
 
 GEM
   remote: https://rubygems.org/
