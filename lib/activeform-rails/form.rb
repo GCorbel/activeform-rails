@@ -29,7 +29,7 @@ module ActiveForm::Form
     end
 
     def main_model
-      @main_model ||= MockModel.new(self)
+      @main_model ||= UnpersistentModel.new(self)
     end
 
     def main_class

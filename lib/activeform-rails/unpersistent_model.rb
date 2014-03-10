@@ -1,4 +1,4 @@
-# MockModel allows the ActiveForm::Form object to delegate methods to
+# UnpersistentModel allows the ActiveForm::Form object to delegate methods to
 # this object with expected results
 #
 # - #model_name is used by Form helpers & Rails frequently to define the form namespace
@@ -6,7 +6,7 @@
 # - #persisted? should aways return false as the Form cannot be persisted unless backed by ActiveModel
 #
 module ActiveForm::Form
-  class MockModel
+  class UnpersistentModel
     attr_reader :to_key, :to_param, :id
 
     def initialize(base_klass)
