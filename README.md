@@ -58,9 +58,9 @@ class Form
 end
 
 form = Form.new(name: 'John')
-form.name # John
-form.title # nil
-form.valid? # false
+form.name # return John
+form.title # return nil
+form.valid? # return false
 ```
 
 ## Use validations
@@ -165,6 +165,24 @@ class Form
     end
   end
 end
+```
+
+## Alias properties
+
+Sometimes it's useful to create an alias for a method, you can do it like this :
+
+```ruby
+class Form
+  include ActiveForm::Form
+  properties :name, on: :category
+  alias_property :category_name, :name
+  self.main_model = :category
+end
+
+form = Form.new(category: Category.new(name: 'bacon'))
+form.category_name # return 'bacon'
+form.category_name = 'beef'
+form.category_name # return 'beef'
 ```
 
 ## Complete Example

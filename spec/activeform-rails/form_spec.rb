@@ -148,6 +148,29 @@ describe ActiveForm do
         expect(form.new_record?).to eq false
       end
     end
+
+    describe "class method #alias_method" do
+      class AliasForm
+        include ActiveForm::Form
+        properties :name, on: :user
+        alias_property :full_name, :name
+        self.main_model = :user
+      end
+
+      subject do
+        user = User.new(name: 'John')
+        AliasForm.new(user: user)
+      end
+
+      it "should allow alias name to be used for read operations" do
+        expect(subject.full_name).to eq 'John'
+      end
+
+      it "should allow alias name to be used for write operations" do
+        subject.full_name = 'Mike'
+        expect(subject.full_name).to eq 'Mike'
+      end
+    end
   end
 
   context 'without any underlying models' do

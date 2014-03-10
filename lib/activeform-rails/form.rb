@@ -42,6 +42,11 @@ module ActiveForm::Form
       end
     end
 
+    def alias_property(new_method, old_method)
+      alias_method new_method.to_sym, old_method.to_sym
+      alias_method "#{new_method}=".to_sym, "#{old_method}=".to_sym
+    end
+
     private
 
     def add_model_on_list(model_name)
