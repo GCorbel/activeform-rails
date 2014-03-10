@@ -92,6 +92,10 @@ module ActiveForm::Form
     end
   end
 
+  def new_record?
+    !persisted?
+  end
+
   private
 
   def ensure_persistable

@@ -122,6 +122,32 @@ describe ActiveForm do
         expect(form.main_model).to eq category
       end
     end
+
+    describe "#persisted?" do
+      it "should be false when not saved" do
+        form = Form.new(user: User.new, category: Category.new)
+        expect(form.persisted?).to eq false
+      end
+
+      it "should be true when not saved" do
+        form = Form.new(user: User.new, category: Category.new)
+        form.save!
+        expect(form.persisted?).to eq true
+      end
+    end
+
+    describe "#new_record?" do
+      it "should be true when not saved" do
+        form = Form.new(user: User.new, category: Category.new)
+        expect(form.new_record?).to eq true
+      end
+
+      it "should be false when not saved" do
+        form = Form.new(user: User.new, category: Category.new)
+        form.save!
+        expect(form.new_record?).to eq false
+      end
+    end
   end
 
   context 'without any underlying models' do
