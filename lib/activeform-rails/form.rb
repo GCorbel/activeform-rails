@@ -9,7 +9,7 @@ module ActiveForm::Form
   end
 
   module ClassMethods
-    delegate :reflect_on_association, to: :main_class
+    delegate :model_name, :reflect_on_association, to: :main_class
     attr_accessor :main_class, :reflected_class, :main_model
 
     def properties(*attributes, prefix: false, on: nil)
@@ -30,20 +30,12 @@ module ActiveForm::Form
       @models ||= []
     end
 
-    def main_class
-      @main_class ||= if @main_model.nil?
-        Object
-      else
-        @main_model.to_s.camelize.constantize
-      end
+    def main_model
+      @main_model ||= MockModel
     end
 
-    def model_name
-      if main_class.respond_to?(:model_name)
-        main_class.model_name
-      else
-        ActiveModel::Name.new(self)
-      end
+    def main_class
+      @main_class ||= main_model.to_s.camelize.constantize
     end
 
     private
