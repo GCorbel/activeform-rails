@@ -130,13 +130,13 @@ describe ActiveForm do
       properties :name, :title
     end
 
-    it "it should allow initialization without any arg" do
+    it 'it should allow initialization without any arg' do
       form = FormNoModels.new
       expect(form.name).to eq nil
       expect(form.title).to eq nil
     end
 
-    it "it should args to be set on initialize" do
+    it 'it should args to be set on initialize' do
       form = FormNoModels.new(name: 'John', title: 'CEO')
       expect(form.name).to eq 'John'
       expect(form.title).to eq 'CEO'
@@ -148,6 +148,26 @@ describe ActiveForm do
 
     it 'should raise an exception on save!' do
       expect { FormNoModels.new.save! }.to raise_exception(ActiveForm::CannotBePersisted)
+    end
+
+    it 'should delegate class method #model_name' do
+      expect(FormNoModels.model_name.to_s).to eq 'FormNoModels'
+    end
+
+    it 'should delegate #to_key' do
+      expect(FormNoModels.new.to_key).to eq nil
+    end
+
+    it 'should delegate #to_param' do
+      expect(FormNoModels.new.to_param).to eq nil
+    end
+
+    it 'should delegate #id' do
+      expect(FormNoModels.new.id).to eq nil
+    end
+
+    it 'should always return false to #persisted?' do
+      expect(FormNoModels.new.persisted?).to be_false
     end
   end
 end

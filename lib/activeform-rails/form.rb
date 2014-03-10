@@ -31,11 +31,15 @@ module ActiveForm::Form
     end
 
     def main_model
-      @main_model ||= MockModel
+      @main_model ||= MockModel.new(self)
     end
 
     def main_class
-      @main_class ||= main_model.to_s.camelize.constantize
+      @main_class ||= if main_model.kind_of?(Symbol)
+        main_model.to_s.camelize.constantize
+      else
+        @main_model
+      end
     end
 
     private
@@ -81,7 +85,11 @@ module ActiveForm::Form
   end
 
   def main_model
-    send(self.class.main_model)
+    if self.class.main_model.kind_of?(Symbol)
+      send(self.class.main_model)
+    else
+      self.class.main_model
+    end
   end
 
   private
