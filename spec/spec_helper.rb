@@ -30,3 +30,6 @@ RSpec.configure do |config|
   end
 end
 
+# hide deprecation warnings, see http://stackoverflow.com/questions/20361428/rails-i18n-validation-deprecation-warning
+I18n.config.enforce_available_locales = true
+
