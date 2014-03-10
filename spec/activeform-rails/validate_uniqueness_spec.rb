@@ -5,7 +5,7 @@ describe ActiveForm::ValidateUniqueness do
     include ActiveForm::Form
     include ActiveForm::ValidateUniqueness
     properties :name, on: :user
-    validates_uniqueness_of :name, :user
+    validates_uniqueness_of :name, :user, allow_nil: true
   end
 
   context "when there is no user" do
