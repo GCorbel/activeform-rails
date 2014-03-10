@@ -192,11 +192,15 @@ describe ActiveForm do
     end
 
     it 'should raise an exception on save' do
-      expect { FormNoModels.new.save }.to raise_exception(ActiveForm::CannotBePersisted)
+      expect do
+        FormNoModels.new.save
+      end.to raise_exception(ActiveForm::CannotBePersisted)
     end
 
     it 'should raise an exception on save!' do
-      expect { FormNoModels.new.save! }.to raise_exception(ActiveForm::CannotBePersisted)
+      expect do
+        FormNoModels.new.save!
+      end.to raise_exception(ActiveForm::CannotBePersisted)
     end
 
     it 'should delegate class method #model_name' do

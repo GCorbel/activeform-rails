@@ -104,7 +104,10 @@ module ActiveForm::Form
   private
 
   def ensure_persistable
-    raise ActiveForm::CannotBePersisted.new('The Form object is not backed by models so cannot be saved') if self.class.models.empty?
+    message = 'The Form object is not backed by models so cannot be saved'
+    if self.class.models.empty?
+      raise ActiveForm::CannotBePersisted.new(message)
+    end
   end
 
   def each_models
