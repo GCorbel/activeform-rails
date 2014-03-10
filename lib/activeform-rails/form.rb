@@ -13,7 +13,7 @@ module ActiveForm::Form
     delegate :model_name, :reflect_on_association, to: :main_class
     attr_accessor :main_class, :reflected_class, :main_model
 
-    def properties(*attributes, prefix: false, on:)
+    def properties(*attributes, prefix: false, on: nil)
       assign_delegators(attributes, on, prefix)
       add_model_on_list(on)
       add_accessor(on)
