@@ -10,6 +10,8 @@ Add this line to you Gemfile :
   gem 'activeform-rails'
 ```
 
+Please make sure you are running a compatible version of Ruby, see below.
+
 ## Quick example
 
 In order to manage category and users, you can create an object like this :
@@ -53,7 +55,7 @@ class Form
   include ActiveForm::Form
 
   properties :name, on: :user
-  
+
   validates :name, presence: true
 
   self.main_model = :user
@@ -151,6 +153,10 @@ end
 ## Complete Example
 
 You can find an example of a working application in the spec/dummy directory.
+
+## Requirements
+
+Ruby 2 or greater.
 
 ## Contributing
 
