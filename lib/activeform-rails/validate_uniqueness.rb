@@ -8,13 +8,12 @@ module ActiveForm
 
     module ClassMethods
       def validates_uniqueness_of(attribute, model_name, options = {})
-        @attribute = attribute
         validates_each attribute, options do |form, attr, value|
           @form = form
           @model = form.send(model_name)
           @klass = @model.class
           @hash = { attribute => value }
-          add_error_message if another_model?
+          add_error_message(attribute) if another_model?
         end
       end
 
@@ -36,8 +35,8 @@ module ActiveForm
         I18n.t('activerecord.errors.messages.exclusion')
       end
 
-      def add_error_message
-        @form.errors.add(@attribute, error_message)
+      def add_error_message(attribute)
+        @form.errors.add(attribute, error_message)
       end
     end
   end

@@ -8,7 +8,7 @@ ActiveRecord::Base.establish_connection(
 )
 
 ['CREATE TABLE categories(id INTEGER PRIMARY KEY, title, user_id)',
- 'CREATE TABLE users(id INTEGER PRIMARY KEY, name)'].each do |sql|
+ 'CREATE TABLE users(id INTEGER PRIMARY KEY, name, firstname)'].each do |sql|
   ActiveRecord::Base.connection.execute sql
 end
 
