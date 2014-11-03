@@ -220,7 +220,7 @@ describe ActiveForm do
     end
 
     it 'should always return false to #persisted?' do
-      expect(FormNoModels.new.persisted?).to be_false
+      expect(FormNoModels.new.persisted?).to be_falsey
     end
   end
 end

@@ -24,7 +24,7 @@ module ActiveForm
       end
 
       def another_model_without_itself
-        @klass.where(@hash).delete_if { |m| m.id == @model.id }.count >= 1
+        @klass.where(@hash).to_a.delete_if { |m| m.id == @model.id }.count >= 1
       end
 
       def any_model?
